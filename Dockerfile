@@ -97,34 +97,23 @@ RUN composer global require "laravel/envoy"
 # so when we execute CLI commands, all the host file's ownership remains intact
 # otherwise command from inside container will create root-owned files and directories
 ARG uid
-RUN useradd -G www-data,root -u $uid -d /home/devuser devuser
+RUN useradd -G www-data,root -u 1000 -d /home/devuser devuser
 RUN mkdir -p /home/devuser/.composer && \
     chown -R devuser:devuser /home/devuser
 
 # 8. private keys
-ARG SSH_KEY
-ARG SSH_KEY_PASSPHRASE
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts && \
-    echo "${SSH_KEY}" > /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa
+#ARG SSH_KEY
+#ARG SSH_KEY_PASSPHRASE
+#RUN mkdir -p /root/.ssh && \
+#    chmod 0700 /root/.ssh && \
+#    ssh-keyscan github.com > /root/.ssh/known_hosts && \
+#    echo "${SSH_KEY}" > /root/.ssh/id_rsa && \
+#    chmod 600 /root/.ssh/id_rsa
 
 #RUN git config --global user.name "egahmad"
 #RUN git config --global user.password "!Wolfandman1542"
 #RUN git remote set-url origin git@github.com:egahmad/OuijaCRM.git
 #RUN git clone https://github.com/egahmad/OuijaCRM.git
-
-#
-
-# 8. private keys
-ARG SSH_KEY
-ARG SSH_KEY_PASSPHRASE
-RUN mkdir -p /root/.ssh && \
-    chmod 0700 /root/.ssh && \
-    ssh-keyscan github.com > /root/.ssh/known_hosts && \
-    echo "${SSH_KEY}" > /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa
 
 
 WORKDIR /var/www/html/
